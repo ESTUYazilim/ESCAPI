@@ -27,3 +27,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - run: Copy-Item -Force -Recurse -Verbose -Path 'C:\actions-runner\_work\ESCAPI\ESCAPI\*' -Destination 'C:\ESCAPI\'
