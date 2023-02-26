@@ -108,3 +108,6 @@ dist
 *.csr
 *.key
 *.pem
+
+# package-lock
+package-lock.json
