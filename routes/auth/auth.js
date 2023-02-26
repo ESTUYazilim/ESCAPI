@@ -19,29 +19,28 @@ router.post('/register', async (req, res) => {
     if (secret !== givenSecret) return res.status(400).send('Wrong parameters.');
 
     // checking if email is already taken
-    User.findOne({ email: req.body.email })
-        .then(emailExists => {
-            if (emailExists) return res.status(400).send('Email already exists.')
-        })
-
-    // hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    // create new user
-    const user = new User({
-        name: req.body.name,
-        studentNumber: req.body.studentNumber,
-        email: req.body.email,
-        department: req.body.department,
-        password: hashedPassword,
-        isAdmin: false
-    });
-
-    // then save user
-    user.save()
-        .then(savedUser => res.send({ user: savedUser._id }))
-        .catch(err => res.send({ "messages": err }));
+    var existingUser = await User.findOne({ email: req.body.email });
+    
+    if (existingUser) return res.status(400).send('Email is already taken.');
+    
+     // hash the password
+     const salt = await bcrypt.genSalt(10);
+     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+ 
+     // create new user
+     const user = new User({
+         name: req.body.name,
+         studentNumber: req.body.studentNumber,
+         email: req.body.email,
+         department: req.body.department,
+         password: hashedPassword,
+         isAdmin: false
+     });
+ 
+     // then save user
+     user.save()
+         .then(savedUser => res.send({ user: savedUser._id }))
+         .catch(err => res.send({ "messages": err }));
 });
 
 // login route
