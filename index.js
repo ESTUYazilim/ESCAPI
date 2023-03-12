@@ -14,6 +14,7 @@ dotenv.config(); // configure dotenv to use secret keys
 // routes
 const authRoute = require('./routes/auth/auth');
 const userRoute = require('./routes/user/user');
+const courseRoute = require('./routes/course/course');
 
 mongoose.set('strictQuery', true); // to avoid deprecation warning
 
@@ -31,6 +32,7 @@ app.use(cors()); // for CORS-POLICY
 
 app.use("/auth", authRoute); // use auth endpoints if url starts with /auth
 app.use("/user", userRoute); // use user endpoints if url starts with /user
+app.use("/course", courseRoute); // use course endpoints if url starts with /course
 
 // uncaught exception handler to catch uncaught exceptions
 // prevents the app from crashing
